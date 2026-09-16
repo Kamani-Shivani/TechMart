@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Telusko Products</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+        href="bootstrap\css\bootstrap.min.css"
+        rel="stylesheet">
+
+    <!-- Our small custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="bg-dark text-light">
+
+
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-black">
+
+    <div class="container-fluid">
+
+        <!-- Logo -->
+        <a class="navbar-brand fw-bold text-info" href="#">
+            TechMart
+        </a>
+
+
+        <!-- Navigation -->
+        <div class="navbar-nav">
+
+            <a class="nav-link active text-info" href="#" onclick="filterCategory('All')">
+                Home
+            </a>
+
+            <a class="nav-link text-warning" href="#" onclick="showAddProduct(event)">
+                Add Product
+            </a>
+
+
+            <!-- Categories -->
+            <div class="nav-item dropdown">
+
+                <a
+                    class="nav-link dropdown-toggle text-light"
+                    href="#"
+                    role="button"
+                    data-bs-toggle="dropdown">
+
+                    Categories
+
+                </a>
+
+                <ul class="dropdown-menu bg-dark border-info">
+
+                    <!-- All -->
+                    <li>
+                        <a
+                            class="dropdown-item text-light"
+                            href="#"
+                            onclick="filterCategory('All')">
+
+                            All
+
+                        </a>
+                    </li>
+
+                    <!-- Mobile -->
+                    <li>
+                        <a
+                            class="dropdown-item text-light"
+                            href="#"
+                            onclick="filterCategory('Mobile')">
+
+                            Mobile
+
+                        </a>
+                    </li>
+
+                    <!-- Laptop -->
+                    <li>
+                        <a
+                            class="dropdown-item text-light"
+                            href="#"
+                            onclick="filterCategory('Laptop')">
+
+                            Laptop
+
+                        </a>
+                    </li>
+
+                    <!-- HeadPhones-->
+                    <li>
+                        <a
+                            class="dropdown-item text-light"
+                            href="#"
+                            onclick="filterCategory('Headphones')">
+
+                            Headphones
+
+                        </a>
+                    </li>
+
+                    <!-- Television -->
+                    <li>
+                        <a
+                            class="dropdown-item text-light"
+                            href="#"
+                            onclick="filterCategory('Television')">
+
+                            Television
+
+                        </a>
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+
+        <!-- Right side -->
+        <div class="d-flex align-items-center gap-2 ms-auto">
+
+            <!-- Cart -->
+            <button
+                class="btn btn-outline-info"
+                onclick="showCart()">
+
+                🛒 Cart
+                <span
+                    id="cartCount"
+                    class="badge bg-danger">
+
+                    0
+
+                </span>
+
+            </button>
+
+            <button class="btn btn-outline-danger ms-2" onclick="logout()">
+                Logout
+            </button>
+
+
+            <!-- Search -->
+            <input
+                type="text"
+                id="searchInput"
+                class="form-control bg-dark text-light border-info"
+                placeholder="Search"
+                onkeyup="searchProducts()">
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+<!-- ================= MAIN ================= -->
+<div class="container py-4">
+
+    <!-- Page heading + Refresh -->
+    <div id="productsHeader" class="d-flex justify-content-between align-items-center mb-4">
+
+        <h2 class="text-info fw-bold mb-0">
+            Products
+        </h2>
+
+        <!-- Refresh -->
+        <button
+            class="btn btn-info"
+            onclick="loadProducts()">
+
+            Refresh
+
+        </button>
+
+    </div>
+
+    <!-- Loading message -->
+    <div
+        id="loading"
+        class="text-center">
+
+        <div
+            class="spinner-border text-info"
+            role="status">
+
+        </div>
+
+        <p class="mt-2 text-info">
+            Loading products...
+        </p>
+
+    </div>
+
+    <!-- Error message -->
+    <div id="errorMessage" class="text-center d-none mt-4">
+
+            <h5 class="text-danger fw-bold">
+                Unable to load products
+            </h5>
+
+            <p class="text-light">
+                Make sure Spring Boot is running.
+            </p>
+
+    </div>
+
+    
+    <!-- ================= ADD PRODUCT FORM ================= -->
+
+    <div id="addProductSection" class="d-none">
+
+        <div class="add-product-card">
+
+            <!-- Heading -->
+            <h2 class="text-info fw-bold text-center mb-4">
+                Add Product
+            </h2>
+
+
+            <form id="addProductForm">
+
+                <!-- NAME + BRAND -->
+                <div class="row g-3">
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="productName"
+                            class="form-control bg-dark text-light border-info"
+                            placeholder="Product Name"
+                            required>
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            Brand
+                        </label>
+
+                        <input
+                            type="text"
+                            id="productBrand"
+                            class="form-control bg-dark text-light border-info"
+                            placeholder="Enter your Brand"
+                            required>
+
+                    </div>
+
+                </div>
+
+
+                <!-- DESCRIPTION -->
+                <div class="mt-3">
+
+                    <label class="form-label">
+                        Description
+                    </label>
+
+                    <input
+                        type="text"
+                        id="productDescription"
+                        class="form-control bg-dark text-light border-info"
+                        placeholder="Add your description"
+                        required>
+
+                </div>
+
+
+                <!-- PRICE + CATEGORY -->
+                <div class="row g-3 mt-1">
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            Price
+                        </label>
+
+                        <input
+                            type="number"
+                            id="productPrice"
+                            class="form-control bg-dark text-light border-info"
+                            placeholder="Eg: 1000"
+                            step="0.01"
+                            required>
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            Category
+                        </label>
+
+                        <select
+                            id="productCategory"
+                            class="form-select bg-dark text-light border-info"
+                            required>
+
+                            <option value="">
+                                Select category
+                            </option>
+
+                            <option value="Mobile">
+                                Mobile
+                            </option>
+
+                            <option value="Laptop">
+                                Laptop
+                            </option>
+
+                            <option value="Headphones">
+                                Headphones
+                            </option>
+
+                            <option value="Television">
+                                Television
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <!-- QUANTITY + DATE + IMAGE -->
+                <div class="row g-3 mt-1">
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            Stock Quantity
+                        </label>
+
+                        <input
+                            type="number"
+                            id="productQuantity"
+                            class="form-control bg-dark text-light border-info"
+                            placeholder="Stock Remaining"
+                            min="0"
+                            required>
+
+                    </div>
+
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            Release Date
+                        </label>
+
+                        <input
+                            type="date"
+                            id="productReleaseDate"
+                            class="form-control bg-dark text-light border-info"
+                            required>
+
+                    </div>
+
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            Image
+                        </label>
+
+                        <input
+                            type="file"
+                            id="productImage"
+                            class="form-control bg-dark text-light border-info"
+                            accept="image/*">
+
+                    </div>
+
+                </div>
+
+
+                <!-- AVAILABLE -->
+                <div class="form-check mt-3">
+
+                    <input
+                        class="form-check-input"
+                        type="checkbox"
+                        id="productAvailable">
+
+                    <label
+                        class="form-check-label"
+                        for="productAvailable">
+
+                        Product Available
+
+                    </label>
+
+                </div>
+
+
+                <!-- SUBMIT -->
+                <div class="text-center mt-4">
+
+                    <button
+                        type="submit"
+                        class="btn btn-info fw-bold px-5">
+
+                        Submit
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= UPDATE PRODUCT FORM ================= -->
+
+    <div id="updateProductSection" class="d-none">
+
+        <div class="add-product-card">
+
+            <h2 class="text-info fw-bold text-center mb-4">
+                Update Product
+            </h2>
+
+            <form id="updateProductForm">
+
+                <!-- NAME + BRAND -->
+                <div class="row g-3">
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="updateProductName"
+                            class="form-control bg-dark text-light border-info"
+                            required>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            Brand
+                        </label>
+
+                        <input
+                            type="text"
+                            id="updateProductBrand"
+                            class="form-control bg-dark text-light border-info"
+                            required>
+
+                    </div>
+
+                </div>
+
+
+                <!-- DESCRIPTION -->
+
+                <div class="mt-3">
+
+                    <label class="form-label">
+                        Description
+                    </label>
+
+                    <input
+                        type="text"
+                        id="updateProductDescription"
+                        class="form-control bg-dark text-light border-info"
+                        required>
+
+                </div>
+
+
+                <!-- PRICE + CATEGORY -->
+
+                <div class="row g-3 mt-1">
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            Price
+                        </label>
+
+                        <input
+                            type="number"
+                            id="updateProductPrice"
+                            class="form-control bg-dark text-light border-info"
+                            step="0.01"
+                            required>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            Category
+                        </label>
+
+                        <select
+                            id="updateProductCategory"
+                            class="form-select bg-dark text-light border-info"
+                            required>
+
+                            <option value="Mobile">
+                                Mobile
+                            </option>
+
+                            <option value="Laptop">
+                                Laptop
+                            </option>
+
+                            <option value="Headphones">
+                                Headphones
+                            </option>
+
+                            <option value="Television">
+                                Television
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <!-- QUANTITY + IMAGE -->
+
+                <div class="row g-3 mt-1">
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            Stock Quantity
+                        </label>
+
+                        <input
+                            type="number"
+                            id="updateProductQuantity"
+                            class="form-control bg-dark text-light border-info"
+                            min="0"
+                            required>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            Image
+                        </label>
+
+                        <input
+                            type="file"
+                            id="updateProductImage"
+                            class="form-control bg-dark text-light border-info"
+                            accept="image/*">
+
+                    </div>
+
+                </div>
+
+
+                <!-- AVAILABLE -->
+
+                <div class="form-check mt-3">
+
+                    <input
+                        class="form-check-input"
+                        type="checkbox"
+                        id="updateProductAvailable">
+
+                    <label
+                        class="form-check-label"
+                        for="updateProductAvailable">
+
+                        Product Available
+
+                    </label>
+
+                </div>
+
+
+                <!-- SUBMIT -->
+
+                <div class="text-center mt-4">
+
+                    <button
+                        type="submit"
+                        class="btn btn-info fw-bold px-5">
+
+                        Update Product
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+        
+        
+
+    <!-- Products -->
+    <div id="productContainer" class="row g-4">
+
+    </div>
+
+    <!-- PRODUCT DETAILS -->
+    <div id="productDetails" class="d-none mt-4">
+
+        <!-- Back Button-->
+         <button
+            class="btn btn-outline-info mb-4"
+            onclick="goBackToProducts()">
+
+            ← Back to Products
+        </button>
+
+        <!-- ===================== -->
+        <!-- Product Details Card -->
+        <!-- ===================== -->
+        <div class="product-details-content">
+
+            <div class="row g-4">
+
+                <!-- LEFT SIDE - PRODUCT IMAGE -->
+
+                <div class="col-md-5">
+
+                    <div class="product-detail-image-box">
+
+                        <img
+                            id="detailImage"
+                            src="images/car.jpg"
+                            alt="Product Image"
+                            class="product-detail-image">
+
+                    </div>
+
+                </div>
+
+
+                <!-- RIGHT SIDE - PRODUCT DETAILS -->
+
+                <div class="col-md-7">
+
+                    <!-- Product Name -->
+
+                    <h2
+                        id="detailName"
+                        class="text-uppercase fw-bold text-info">
+
+                        Product Name
+
+                    </h2>
+
+
+                    <!-- Brand -->
+
+                    <p
+                        id="detailBrand"
+                        class="text-warning">
+
+                    </p>
+
+                    <hr>
+
+
+                    <!-- Product ID -->
+
+                    <p>
+
+                        <strong>Product ID:</strong>
+
+                        <span
+                            id="detailId"
+                            class="text-warning">
+
+                        </span>
+
+                    </p>
+
+
+                    <!-- Release Date -->
+
+                    <p>
+
+                        <strong>Release Date:</strong>
+
+                        <span
+                            id="detailReleaseDate"
+                            class="text-info">
+
+                        </span>
+
+                    </p>
+
+
+                    <!-- Category -->
+
+                    <p>
+
+                        <strong>Category:</strong>
+
+                        <span
+                            id="detailCategory"
+                            class="badge bg-dark">
+
+                        </span>
+
+                    </p>
+
+
+                    <!-- Description -->
+
+                    <p>
+
+                        <strong>Description:</strong>
+
+                        <span id="detailDescription"></span>
+
+                    </p>
+
+
+                    <!-- Price -->
+
+                    <p>
+
+                        <strong>Price:</strong>
+
+                        ₹<span
+                            id="detailPrice"
+                            class="text-warning fw-bold">
+
+                        </span>
+
+                    </p>
+
+
+                    <!-- Availability -->
+
+                    <p>
+
+                        <strong>Availability:</strong>
+
+                        <span id="detailAvailability"></span>
+
+                    </p>
+
+
+                    <!-- Quantity -->
+
+                    <p>
+
+                        <strong>Quantity:</strong>
+
+                        <span
+                            id="detailQuantity"
+                            class="text-info">
+
+                        </span>
+
+                    </p>
+
+
+                    <!-- UPDATE & DELETE -->
+
+                    <div class="d-flex gap-3 mt-4">
+
+                        <button
+                            class="btn btn-info flex-fill"
+                            onclick="updateProduct()">
+
+                            ✏️ Update
+
+                        </button>
+
+
+                        <button
+                            class="btn btn-danger flex-fill"
+                            onclick="deleteProduct()">
+
+                            🗑️ Delete
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+</div>
+    <!-- No products -->
+    <div id="noProducts" class="text-center d-none py-5">
+
+        <h3 class="text-warning fw-bold">
+            No products found
+        </h3>
+
+        <p class="text-light">
+            There are no products available yet.
+        </p>
+
+        <button
+            class="btn btn-info fw-bold"
+            onclick="showAddProduct(event)">
+            ➕ Add Your First Product
+        </button>
+
+    </div>
+
+
+
+<!-- ================= CART MODAL ================= -->
+
+<div
+    class="modal fade"
+    id="cartModal"
+    tabindex="-1">
+
+    <div class="modal-dialog">
+
+        <div class="modal-content bg-dark text-light border-info">
+
+            <div class="modal-header bg-primary">
+
+                <h5 class="modal-title">
+                    🛒 Shopping Cart
+                </h5>
+
+                <button
+                    type="button"
+                    class="btn-close btn-close-white"
+                    data-bs-dismiss="modal">
+                </button>
+
+            </div>
+
+            <!-- Cart Items -->
+            <div
+                class="modal-body"
+                id="cartItems">
+
+            </div>
+
+
+            <!-- Cart Footer -->
+            <div class="modal-footer">
+
+                <strong class="text-warning">
+                    Total: ₹<span id="cartTotal">0</span>
+                </strong>
+
+                <button
+                    class="btn btn-danger"
+                    onclick="clearCart()">
+
+                    Clear Cart
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Bootstrap JavaScript -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+<!-- Our JavaScript -->
+
+<script src="script.js"></script>
+
+</body>
+
+</html>

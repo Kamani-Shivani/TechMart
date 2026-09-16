@@ -1,0 +1,201 @@
+/* Product card */
+
+.product-card {
+    height: 100%;
+    transition: 0.2s;
+}
+
+
+/* Small hover effect */
+
+.product-card:hover {
+    transform: translateY(-4px);
+}
+
+
+/* Product image area */
+
+.product-icon {
+    font-size: 50px;
+}
+
+
+/* Price */
+
+.product-price {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+
+/* Brand */
+
+.product-brand {
+    font-size: 13px;
+}
+
+
+/* Description */
+
+.product-description {
+    font-size: 13px;
+}
+
+/* Product Details Card */
+
+.product-details-content {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+
+/* ============================================
+   PRODUCT IMAGE - HOME PAGE
+   ============================================ */
+
+.product-image {
+
+    width: 100%;
+    height: 180px;
+
+    object-fit: contain;
+
+    border-radius: 8px;
+
+    background-color: #222;
+
+}
+
+
+/* ============================================
+   PRODUCT IMAGE - DETAILS PAGE
+   ============================================ */
+
+.product-detail-image-box {
+
+    width: 100%;
+    min-height: 400px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background-color: #222;
+
+    border-radius: 10px;
+
+    padding: 20px;
+
+}
+
+
+.product-detail-image {
+
+    width: 100%;
+
+    max-height: 400px;
+
+    object-fit: contain;
+
+    border-radius: 10px;
+
+}
+
+/* ============================================
+   ADD PRODUCT FORM
+   ============================================ */
+
+#addProductSection {
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+}
+
+
+/* Main form box */
+
+.add-product-card {
+
+    width: 100%;
+    max-width: 850px;
+
+    background-color: #212529;
+
+    border: none;
+
+    border-radius: 12px;
+
+    padding: 30px;
+
+    box-shadow: none;
+
+}
+
+
+/* Form labels */
+
+.add-product-card .form-label {
+
+    color: #ffffff;
+
+    font-weight: 500;
+
+}
+
+
+/* Input fields */
+
+.add-product-card .form-control,
+.add-product-card .form-select {
+
+    background-color: #ffffff !important;
+
+    color: #000000 !important;
+
+    border: none !important;
+
+    min-height: 42px;
+
+}
+
+
+/* Placeholder text */
+
+.add-product-card .form-control::placeholder {
+
+    color: #6c757d;
+
+}
+
+
+/* Dropdown options */
+
+.add-product-card .form-select option {
+
+    background-color: #ffffff;
+
+    color: #000000;
+
+}
+
+
+/* File input */
+
+.add-product-card input[type="file"] {
+
+    background-color: #ffffff !important;
+
+    color: #000000 !important;
+
+}
+
+
+/* Submit button */
+
+.add-product-card button[type="submit"] {
+
+    min-width: 150px;
+
+}
